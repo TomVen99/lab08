@@ -65,7 +65,7 @@ public final class Configuration {
 
         private static final int MIN = 0;
         private static final int MAX = 100;
-        private static final int ATTEMPTS = 10;
+        private static final int ATTEMPTS = 1;
 
         private int min = MIN;
         private int max = MAX;

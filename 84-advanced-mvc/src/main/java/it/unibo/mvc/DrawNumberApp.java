@@ -1,6 +1,9 @@
 package it.unibo.mvc;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @param views
      *            the views to attach
      */
-    public DrawNumberApp(final DrawNumberView... views) {
+    public DrawNumberApp(final String configFile, final DrawNumberView... views) {
         /*
          * Side-effect proof
          */
@@ -27,7 +30,39 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
             view.setObserver(this);
             view.start();
         }
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        Configuration.Builder configurationBuilder = new Configuration.Builder();
+        try (var read = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(configFile)))) {
+            String line;
+            while ((line = read.readLine()) != null) {
+                System.out.println(line);
+                var configs = line.split(":");
+                if (configs.length == 2) {
+                    final int value = Integer.parseInt(configs[1].trim());
+                    switch (configs[0]) {
+                        case "minimum":
+                            configurationBuilder.setMin(value);
+                        case "maximum":
+                            configurationBuilder.setMax(value);
+                        case "attempts":
+                            configurationBuilder.setAttempts(value);
+                        default:
+                            throw new IllegalArgumentException("Invelid column on file " + configs[0]);
+                    }
+                }else {
+                    throw new IllegalArgumentException("Invalid column in file " + configs[0]);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        final var conf = configurationBuilder.build();
+        if (conf.isConsistent()) {
+            this.model = new DrawNumberImpl(conf);
+        } else {
+            System.out.println("Can't read configuration. Using default configs");
+            this.model = new DrawNumberImpl(new Configuration.Builder().build());
+        }
     }
 
     @Override
@@ -66,7 +101,9 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * @throws FileNotFoundException 
      */
     public static void main(final String... args) throws FileNotFoundException {
-        new DrawNumberApp(new DrawNumberViewImpl());
+        new DrawNumberApp("config.yml",new DrawNumberViewImpl());/*,
+        new PrintStreamView(System.out),
+        new PrintStreamView("output.log"));*/
     }
-
+    
 }

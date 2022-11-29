@@ -1,0 +1,5 @@
+C:\Users\Tomas\Documents\Università\2anno\OOP\Lab\Esercizi\oop-lab08\83-mvc-io\build\classes\java\main\it\unibo\mvc\Controller.class
+C:\Users\Tomas\Documents\Università\2anno\OOP\Lab\Esercizi\oop-lab08\83-mvc-io\build\classes\java\main\it\unibo\mvc\SimpleController.class
+C:\Users\Tomas\Documents\Università\2anno\OOP\Lab\Esercizi\oop-lab08\83-mvc-io\build\classes\java\main\it\unibo\mvc\SimpleGUI$1.class
+C:\Users\Tomas\Documents\Università\2anno\OOP\Lab\Esercizi\oop-lab08\83-mvc-io\build\classes\java\main\it\unibo\mvc\SimpleGUI$2.class
+C:\Users\Tomas\Documents\Università\2anno\OOP\Lab\Esercizi\oop-lab08\83-mvc-io\build\classes\java\main\it\unibo\mvc\SimpleGUI.class
